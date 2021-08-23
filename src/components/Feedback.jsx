@@ -65,6 +65,14 @@ class Feedback extends React.Component {
     this.setState(prevState => ({ bad: prevState.bad + 1 }));
   };
 
+  countTotalFeedback = () =>
+    Object.values(this.state).reduce(
+      (accumulator = 0, currentValue) => accumulator + currentValue,
+    );
+
+  countPositiveFeedbackPercentage = () =>
+    Math.round((this.state.good * 100) / this.countTotalFeedback());
+
   // ===== порядок: 4- рендер ====
   render() {
     return (
@@ -123,6 +131,25 @@ class Feedback extends React.Component {
               <span className="listStatistics__grade--category">Bad: </span>
               <span className="listStatistics__grade--rating">
                 {this.state.bad}
+              </span>
+            </p>
+          </li>
+
+          <li className="listStatistics__item">
+            <p className="listStatistics__grade">
+              <span className="listStatistics__grade--category">Total: </span>
+              <span className="listStatistics__grade--rating">
+                {this.countTotalFeedback()}
+              </span>
+            </p>
+          </li>
+          <li className="listStatistics__item">
+            <p className="listStatistics__grade">
+              <span className="listStatistics__grade--category">
+                Positive feedback:
+              </span>
+              <span className="listStatistics__grade--rating">
+                {this.countPositiveFeedbackPercentage()}%
               </span>
             </p>
           </li>
