@@ -1,3 +1,5 @@
+//код до рефакторинга с комментариями. Не удалять!
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -44,8 +46,10 @@ class Feedback extends React.Component {
     // console.log('Good');
     // console.log(this); //чтобы достучаться до this, записываем публичное свойство в виде стрелки
     //=================
-    // console.log(e); //кроссбраузерный евент в обертке реакта, но имеет все свойства евента
-    // console.log(e.target); //пример свойства
+    console.log(e); //кроссбраузерный евент в обертке реакта, но имеет все свойства евента
+    console.log(e.target.name); //пример свойства
+    console.log([e.target.name]);
+    console.log([e.target.textContent]);
     //=================
     // const target = e.target; //так как event очищается после событие, то значение необходимо записать в переменную
     // setTimeout(() => { //пример с переменной
@@ -57,11 +61,14 @@ class Feedback extends React.Component {
     this.setState(prevState => ({ good: prevState.good + 1 })); //если нужно изменять предыдущее значение, будет храниться в prevState
   };
 
-  handleNeutral = () => {
-    this.setState(prevState => ({ neutral: prevState.neutral + 1 }));
+  handleNeutral = e => {
+    this.setState(prevState => ({
+      [e.target.name]: prevState[e.target.name] + 1, // оператор индекса
+    }));
   };
 
-  handleBad = () => {
+  handleBad = e => {
+    console.log(e.target.name);
     this.setState(prevState => ({ bad: prevState.bad + 1 }));
   };
 
@@ -83,6 +90,7 @@ class Feedback extends React.Component {
             <button
               className="listButtons__button"
               type="button"
+              name="good"
               onClick={this.handleGood}
             >
               Good
@@ -92,6 +100,7 @@ class Feedback extends React.Component {
             <button
               className="listButtons__button"
               type="button"
+              name="neutral"
               onClick={this.handleNeutral}
             >
               Neutral
@@ -101,6 +110,7 @@ class Feedback extends React.Component {
             <button
               className="listButtons__button"
               type="button"
+              name="bad"
               onClick={this.handleBad}
             >
               Bad
